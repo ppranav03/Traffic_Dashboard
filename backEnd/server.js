@@ -1358,12 +1358,19 @@ function ReadFile_EdgeProbes(buf, args) {
 
 		// Convert `f_time` to an integer second
 		let second = Math.floor(obj.time);
+		let vehicleID = obj.vehicleID;
 
 		// Group objects by second
 		if (!objs[second]) {
 			objs[second] = [];
 		}
 		objs[second].push(obj);
+
+		// Group objects by vehicle ID
+		if (!objs[vehicleID]) {
+			objs[vehicleID] = [];
+		}
+		objs[vehicleID].push(obj);
 		
 
 		// make sure its what we are looking for
