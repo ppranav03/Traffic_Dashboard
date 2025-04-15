@@ -32,6 +32,45 @@ CREATE TABLE IF NOT EXISTS text_files (
     UNIQUE (file_sim, file_type)
 );
 
+CREATE TABLE IF NOT EXISTS file16 (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+    report_type INT,
+    simulation_time_sec FLOAT,
+    vehicle_id INT,
+    vehicle_class INT,
+    current_link INT,
+    current_lane INT,
+    next_link INT,
+    next_lane INT,
+    vehicle_origin_zone INT,
+    vehicle_destination_zone INT,
+    scheduled_departure_time_sec FLOAT,
+    actual_departure_time_sec FLOAT,
+    elapsed_time_sec FLOAT,
+    total_delay_sec FLOAT,
+    stopped_delay_sec FLOAT,
+    cumulative_stops INT,
+    distance_covered_km FLOAT,
+    average_speed_kmh FLOAT,
+    exit_speed_kmh FLOAT,
+    fuel_used_liters FLOAT,
+    hydrocarbon_grams FLOAT,
+    carbon_monoxide_grams FLOAT,
+    nitrous_oxide_grams FLOAT,
+    co2_grams FLOAT,
+    particulate_matter_grams FLOAT,
+    energy_used_kw FLOAT,
+    expected_crashes FLOAT,
+    expected_injury_crashes FLOAT,
+    expected_fatal_crashes FLOAT,
+    low_damage_crashes FLOAT,
+    moderate_damage_crashes FLOAT,
+    high_damage_crashes FLOAT,
+    toll_paid_dollars FLOAT,
+    acceleration_noise FLOAT,
+    UNIQUE (vehicle_id, simulation_time_sec)
+);
+
 INSERT INTO users (user_id, username, password) VALUES ('1', 'root', 'rootpass');
 
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'P@ssw0rd1234!';
