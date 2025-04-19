@@ -41,9 +41,7 @@ function EdgeLogsBarChart({ dimensions, selectedGraph, expandedCollection }) {
     fetchEdgeData();
   }, [expandedCollection]);
 
-  if (edgeData.length === 0) {
-    return <div>Loading Edge Data...</div>;
-  }
+
 
   // Prepare data for the chart
   // const sortedEdges = edgeData.sort((a, b) => b.numOfLogs - a.numOfLogs);
@@ -87,12 +85,83 @@ function EdgeLogsBarChart({ dimensions, selectedGraph, expandedCollection }) {
   //   maintainAspectRatio: false,
   // };
 
+  console.log(edgeData);
+
+  const [currentSecond, setCurrentSecond] = useState(0);
+  const [minSec, setMinSec] = useState(0);
+  const [maxSec, setMaxSec] = useState(0);
+  const [vehicle80, setVehicle80] = useState([]);
+
+
+
+  // Update state when edgeData changes
+  useEffect(() => {
+    if (edgeData?.data?.length > 0) {
+      const filtered = edgeData.data.filter(obj => obj.vehicle_id === 80);
+      const times = filtered.map(obj => obj.simulation_time_sec);
+
+      if (times.length > 0) {
+        const min = Math.min(...times);
+        const max = Math.max(...times);
+
+        setVehicle80(filtered);
+        setMinSec(min);
+        setMaxSec(max);
+        setCurrentSecond(min); // start at the first second
+      }
+    }
+  }, [edgeData]);
+
+  console.log(vehicle80);
+
+  const currentData = vehicle80.filter(row => Math.floor(row.simulation_time_sec) === currentSecond);
+
+  if (edgeData.length === 0) {
+    return <div>Loading Edge Data...</div>;
+  }
+
   return (
-    <div style={{ width: dimensions.graphWidth, height: dimensions.graphHeight }}>
-      <h3>Top 20 Edges by Number of Logs</h3>
-      <div>{JSON.stringify(edgeData.data[0])}</div>
-      <div>hi</div>
-      {/* <Bar data={data} options={options} /> */}
+    <div style={{ width: dimensions.graphWidth, height: dimensions.graphHeight, padding: '1rem' }}>
+      <h3>Vehicle ID: 80</h3>
+
+      <input
+        type="range"
+        min={minSec}
+        max={maxSec}
+        value={currentSecond}
+        onChange={(e) => setCurrentSecond(parseInt(e.target.value))}
+        style={{ width: '100%' }}
+      />
+      <p>Showing data for simulation second: <strong>{currentSecond}</strong></p>
+
+      <table border="1" cellPadding="8" style={{ width: '100%' }}>
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Link</th>
+            <th>Lane</th>
+            <th>Speed</th>
+            <th>Distance</th>
+            <th>Fuel</th>
+          </tr>
+        </thead>
+        <tbody>
+          {currentData.length > 0 ? (
+            currentData.map((row, idx) => (
+              <tr key={idx}>
+                <td>{row.simulation_time_sec}</td>
+                <td>{row.current_link}</td>
+                <td>{row.current_lane}</td>
+                <td>{row.average_speed_kmh ?? 'N/A'}</td>
+                <td>{row.distance_covered_km}</td>
+                <td>{row.fuel_used_liters}</td>
+              </tr>
+            ))
+          ) : (
+            <tr><td colSpan="6">No data for this second</td></tr>
+          )}
+        </tbody>
+      </table>
     </div>
   );
 }

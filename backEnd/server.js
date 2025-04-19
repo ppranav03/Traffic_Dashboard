@@ -447,7 +447,7 @@ app.get('/api/file-edgeprobes', async (req, res) => {
 			[sim_id]
 		);
 
-		res.json({ data: rows });
+		res.json({ data: rows }); // sending the data
 	} catch (err) {
 		console.error('Error fetching file16 rows:', err);
 		res.status(500).send('Error fetching file16 data');
@@ -1401,7 +1401,7 @@ async function ReadFile_EdgeProbes(buf, args, sim_id) {
 
 
 	let totalCount = 0;
-	console.log(lineC);
+	// console.log(lineC);
 	let objs = {};
 	for (let i = 0; i < lineC; i++) {
 		let obj = {};
@@ -1444,8 +1444,9 @@ async function ReadFile_EdgeProbes(buf, args, sim_id) {
 			objs[second] = [];
 		}
 		objs[second].push(obj);
-		// console.log(obj);
+		
 		try {
+			// console.log(obj);
 			// console.log(sim_id)
 			await promisePool.query(
 				`INSERT INTO file16 (
