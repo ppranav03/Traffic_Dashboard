@@ -131,23 +131,32 @@ function EdgeLogsBarChart({ dimensions, selectedGraph, expandedCollection }) {
             Showing data for simulation second: <strong>{currentSecond}</strong>
           </p>
 
+          <div style={{ overflowX: 'auto', width: '100%' }}>
           <table 
             border="1" 
             cellPadding="8" 
             style={{ 
-              width: '100%',
+              width: '150%', /* Make the table wider */
               borderCollapse: 'collapse'
             }}
           >
             <thead style={{ backgroundColor: '#4a90e2', color: 'white' }}>
               <tr>
-                <th style={{ padding: '12px 8px' }}>Time</th>
+                <th style={{ padding: '12px 8px' }}>Time (secs)</th>
                 <th style={{ padding: '12px 8px' }}>Link</th>
                 <th style={{ padding: '12px 8px' }}>Lane</th>
-                <th style={{ padding: '12px 8px' }}>Speed</th>
-                <th style={{ padding: '12px 8px' }}>Distance</th>
-                <th style={{ padding: '12px 8px' }}>Fuel</th>
+                <th style={{ padding: '12px 8px' }}>Speed (km/h)</th>
+                <th style={{ padding: '12px 8px' }}>Distance (km)</th>
+                <th style={{ padding: '12px 8px' }}>Fuel (L)</th>
                 <th style={{ padding: '12px 8px' }}>CO2 (g)</th>
+                <th style={{ padding: '12px 8px' }}>Hydrocarbon (g)</th>
+                <th style={{ padding: '12px 8px' }}>Carbon Monoxide (g)</th>
+                <th style={{ padding: '12px 8px' }}>Nitrous Oxide (g)</th>
+                <th style={{ padding: '12px 8px' }}>PM (g)</th>
+                <th style={{ padding: '12px 8px' }}>Expected Crashes</th>
+                <th style={{ padding: '12px 8px' }}>Injury Crashes</th>
+                <th style={{ padding: '12px 8px' }}>Fatal Crashes</th>
+                <th style={{ padding: '12px 8px' }}>Toll Paid ($)</th>
               </tr>
             </thead>
             <tbody>
@@ -161,15 +170,24 @@ function EdgeLogsBarChart({ dimensions, selectedGraph, expandedCollection }) {
                     <td style={{ padding: '8px' }}>{row.distance_covered_km}</td>
                     <td style={{ padding: '8px' }}>{row.fuel_used_liters}</td>
                     <td style={{ padding: '8px' }}>{row.co2_grams ?? 'N/A'}</td>
+                    <td style={{ padding: '8px' }}>{row.hydrocarbon_grams ?? 'N/A'}</td>
+                    <td style={{ padding: '8px' }}>{row.carbon_monoxide_grams ?? 'N/A'}</td>
+                    <td style={{ padding: '8px' }}>{row.nitrous_oxide_grams ?? 'N/A'}</td>
+                    <td style={{ padding: '8px' }}>{row.particulate_matter_grams ?? 'N/A'}</td>
+                    <td style={{ padding: '8px' }}>{row.expected_crashes ?? 'N/A'}</td>
+                    <td style={{ padding: '8px' }}>{row.expected_injury_crashes ?? 'N/A'}</td>
+                    <td style={{ padding: '8px' }}>{row.expected_fatal_crashes ?? 'N/A'}</td>
+                    <td style={{ padding: '8px' }}>{row.toll_paid_dollars ?? 'N/A'}</td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="7" style={{ padding: '8px', textAlign: 'center' }}>No data for this second</td>
+                  <td colSpan="15" style={{ padding: '8px', textAlign: 'center' }}>No data for this second</td>
                 </tr>
               )}
             </tbody>
           </table>
+        </div>
         </>
       )}
     </div>
